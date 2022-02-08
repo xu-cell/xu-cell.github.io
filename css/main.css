@@ -1244,14 +1244,27 @@ pre code {
   display: inline-block;
 }
 .site-author-image {
-  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;
+  padding: $site-author-image-padding;
   max-width: 120px;
-  padding: 2px;
+  height: $site-author-image-height;
+  border: 1px solid #eee;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  transition: 1.4s all;
 }
 .site-author-name {
   color: var(--text-color);
   font-weight: 600;
   margin: 0;
+}
+.site-author-image:hover {
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -transform: rotate(360deg);
 }
 .site-description {
   color: #999;
