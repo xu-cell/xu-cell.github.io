@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2022/02/07/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>备战蓝桥杯-递归与迭代</title>
+    <url>/2022/02/18/%E5%A4%87%E6%88%98%E8%93%9D%E6%A1%A5%E6%9D%AF-%E9%80%92%E5%BD%92%E4%B8%8E%E8%BF%AD%E4%BB%A3/</url>
+    <content><![CDATA[<h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><h2 id="例题（一）：1209-带分数"><a href="#例题（一）：1209-带分数" class="headerlink" title="例题（一）：1209. 带分数"></a>例题（一）：1209. 带分数</h2><p>00100 可以表示为带分数的形式：100&#x3D;3+69258714100&#x3D;3+69258714</p>
+<p>还可以表示为：100&#x3D;82+3546197100&#x3D;82+3546197</p>
+<p>注意特征：带分数中，数字 1∼91∼9 分别出现且只出现一次（不包含 00）。</p>
+<p>类似这样的带分数，100100 有 1111 种表示法。</p>
 <span id="more"></span>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>一个正整数。</p>
+<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出输入数字用数码 1∼91∼9 不重复不遗漏地组成带分数表示的全部种数。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>1≤N&lt;1061≤N&lt;106</p>
+<h4 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">100</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h4 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h4 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">105</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">6</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">bool</span> used[N];</span><br><span class="line"><span class="type">int</span> nums[N];</span><br><span class="line"><span class="type">int</span> cnt;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">cal</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = l;i&lt;=r;i++) &#123;</span><br><span class="line">        res = res*<span class="number">10</span>+nums[i];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//分段</span></span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">9</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;<span class="number">7</span>;i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j  = i+<span class="number">1</span>;j&lt;<span class="number">8</span>;j++)&#123;</span><br><span class="line">               <span class="type">int</span> x = <span class="built_in">cal</span>(<span class="number">0</span>,i);</span><br><span class="line">               <span class="keyword">if</span>(x&gt;n)<span class="keyword">continue</span>;</span><br><span class="line">               </span><br><span class="line">               <span class="type">int</span> y = <span class="built_in">cal</span>(i+<span class="number">1</span>,j);</span><br><span class="line">               <span class="type">int</span> z = <span class="built_in">cal</span>(j+<span class="number">1</span>,<span class="number">8</span>);</span><br><span class="line">               <span class="keyword">if</span>(x*z + y == n*z) &#123;</span><br><span class="line">                       cnt++;</span><br><span class="line">                &#125;</span><br><span class="line">     </span><br><span class="line">            &#125;    </span><br><span class="line">        &#125;</span><br><span class="line">       <span class="keyword">return</span> ;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//全排列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;=<span class="number">9</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!used[i]) &#123;</span><br><span class="line">            used[i] = <span class="literal">true</span>;</span><br><span class="line">            nums[u] = i;</span><br><span class="line">            <span class="built_in">dfs</span>(u+<span class="number">1</span>);</span><br><span class="line">            nums[u] = <span class="number">0</span>;</span><br><span class="line">            used[i] =<span class="literal">false</span>;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>);</span><br><span class="line">    cout&lt;&lt;cnt;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 ]]></content>
-  </entry>
-  <entry>
-    <title>myfirst</title>
-    <url>/2022/02/07/myfirst/</url>
-    <content><![CDATA[]]></content>
       <categories>
-        <category>尝试</category>
+        <category>蓝桥杯</category>
       </categories>
       <tags>
-        <tag>testfirst</tag>
+        <tag>算法</tag>
+        <tag>蓝桥杯</tag>
       </tags>
   </entry>
 </search>
