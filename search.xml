@@ -45,6 +45,55 @@
       </tags>
   </entry>
   <entry>
+    <title>备战蓝桥杯-数学与简单DP</title>
+    <url>/2022/02/22/%E5%A4%87%E6%88%98%E8%93%9D%E6%A1%A5%E6%9D%AF-%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%AE%80%E5%8D%95DP/</url>
+    <content><![CDATA[<h1 id="Acing-1212-地宫取宝"><a href="#Acing-1212-地宫取宝" class="headerlink" title="Acing.1212. 地宫取宝"></a>Acing.1212. 地宫取宝</h1><p>X 国王有一个地宫宝库，是 n×m个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
+<p>地宫的入口在左上角，出口在右下角。</p>
+<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
+<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
+<p>当小明走到出口时，如果他手中的宝贝恰好是 k 件，则这些宝贝就可以送给小明。</p>
+<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 k件宝贝。</p>
+<span id="more"></span>
+
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行 3个整数，n,m,k含义见题目描述。</p>
+<p>接下来 n 行，每行有 m 个整数 Ci 用来描述宝库矩阵每个格子的宝贝价值。</p>
+<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出一个整数，表示正好取 k个宝贝的行动方案数。</p>
+<p>该数字可能很大，输出它对 1000000007 取模的结果。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>1≤n,m≤501≤n,m≤50,<br>1≤k≤121≤k≤12,<br>0≤Ci≤120≤Ci≤12</p>
+<h4 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2 2 2</span><br><span class="line">1 2</span><br><span class="line">2 1</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<h4 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2 3 2</span><br><span class="line">1 2 3</span><br><span class="line">2 1 5</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">14</span><br></pre></td></tr></table></figure>
+
+<p>思路：</p>
+<ol>
+<li>首先我们观察题目出现“小明被带到地宫的入口，国王要求他只能向右或向下行走。”我们想到我们做过的dp题机器人走迷宫，摘花生。一般是求从左上角走到右下角的所有方案中的“最大值”或者“最小值”</li>
+<li>第二，我们观察到“如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它”有点像我们写过的最长递增子序列的问题，确保后面的值比前面的大。同时“当然，也可以不拿。”又有点01背包的味道总的来说，这段话包含两个限制条件：我们在走到一个位置时，可以拿，可以不拿，我们拿的时候要比上一个位置的宝贝价值要大</li>
+<li>第三：如果他手中的宝贝恰好是 k件，是我们的方案又多了一个限制条件</li>
+</ol>
+<p>经过分析我们发现这个题是一个4维DP问题</p>
+<ol>
+<li><p>状态表示：f[i] [j] [k] [v] 表示从1，1出发到i，j这个位置拿到k件宝贝，且最后一件宝贝的价值为v（第k件）的方案的集合  ；属性：方案数</p>
+</li>
+<li><p>状态计算：</p>
+</li>
+</ol>
+<p><img src="/png_one.jpg"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>;</span><br><span class="line"><span class="type">int</span> a[N][N],f[N][N][<span class="number">13</span>][<span class="number">14</span>];</span><br><span class="line"><span class="type">int</span> n,m,k;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MOD = <span class="number">1000000007</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">          &#123;</span><br><span class="line">              cin&gt;&gt;a[i][j];</span><br><span class="line">              a[i][j]+=<span class="number">1</span>; <span class="comment">//拓展价值【1，3】</span></span><br><span class="line">              </span><br><span class="line">          &#125;</span><br><span class="line">    </span><br><span class="line">    f[<span class="number">1</span>][<span class="number">1</span>][<span class="number">1</span>][a[<span class="number">1</span>][<span class="number">1</span>]] = <span class="number">1</span>;<span class="comment">//取第一件物品</span></span><br><span class="line">    f[<span class="number">1</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;<span class="comment">//不取第一件物品的话,意为着其他物品随便取，由题目条件可知要取其他物品，必须保证其他物品的价值比第一件宝贝价值打，所以我们设为0，其他所有宝贝价值统一+1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> cnt = <span class="number">0</span>;cnt&lt;=k;cnt++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">0</span>;v&lt;=<span class="number">13</span>;v++)&#123;</span><br><span class="line">                    <span class="type">int</span> &amp;val = f[i][j][cnt][v];</span><br><span class="line">                    val = (val+f[i][j<span class="number">-1</span>][cnt][v])%MOD;</span><br><span class="line">                    val = (val+f[i<span class="number">-1</span>][j][cnt][v])%MOD;</span><br><span class="line">                    <span class="keyword">if</span>(cnt&gt;<span class="number">0</span>&amp;&amp;v == a[i][j])&#123;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> u = <span class="number">0</span>;u&lt;a[i][j];u++)&#123;</span><br><span class="line">                        val = (val+f[i][j<span class="number">-1</span>][cnt<span class="number">-1</span>][u])%MOD;</span><br><span class="line">                        val = (val+f[i<span class="number">-1</span>][j][cnt<span class="number">-1</span>][u])%MOD;</span><br><span class="line">                            </span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;=<span class="number">13</span>;i++)res = (res+f[n][m][k][i])%MOD;</span><br><span class="line">    cout&lt;&lt;res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>蓝桥杯</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>蓝桥杯</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>备战蓝桥杯—二分与前缀和</title>
     <url>/2022/02/20/%E5%A4%87%E6%88%98%E8%93%9D%E6%A1%A5%E6%9D%AF%E2%80%94%E4%BA%8C%E5%88%86%E4%B8%8E%E5%89%8D%E7%BC%80%E5%92%8C/</url>
     <content><![CDATA[<h1 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h1><h2 id="例题（一）：Acwing-730机器人跳跃问题"><a href="#例题（一）：Acwing-730机器人跳跃问题" class="headerlink" title="例题（一）：Acwing.730机器人跳跃问题"></a>例题（一）：Acwing.730机器人跳跃问题</h2><p>机器人正在玩一个古老的基于 DOS 的游戏。</p>
